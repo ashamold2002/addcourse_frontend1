@@ -1,50 +1,55 @@
-// import { createCourseRequest } from "../../action/Course/AddCourseAction";
-// import { createCourseSuccess } from "../../action/Course/AddCourseAction";
-// import { createCourseFailure } from "../../action/Course/AddCourseAction";
-// // import { createCourseSuccess } from "../../action/Course/AddCourseAction";
-
-
-// // Thunk Action Creator
-// import axios from 'axios';
-
-// export const createCourse = (courseData) => {
-//   return async (dispatch) => {
-//     dispatch(createCourseRequest());
-//     try {
-//       const response = await axios.post('http://localhost:5199/lxp/course', courseData, {
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//       });
-//       console.log(response.data)
-//       dispatch(createCourseSuccess(response.data));
-//     } catch (error) {
-//       dispatch(createCourseFailure(error.message));
-//     }
-//   };
-// };
-// middleware/Course/AddCourse.js
-
 import axios from 'axios';
-import {
-  createCourseRequest,
-  createCourseSuccess,
-  createCourseFailure
-} from '../../action/Course/AddCourseAction';
+import { useNavigate } from 'react-router-dom';
+import {CREATE_COURSES_REQUEST,createCoursesSuccess,createCoursesFailure} from '../../action/Course/AddCourseAction'
 
-export const createCourse = (formData) => {
-  return async (dispatch) => {
-    dispatch(createCourseRequest());
 
+
+const API_URL = 'http://localhost:5199/lxp/course';
+
+ const addCourse = ({ dispatch }) => (next) => async (action) => {
+  
+
+  if (action.type === CREATE_COURSES_REQUEST) {
     try {
-      const response = await axios.post('http://localhost:5199/lxp/course', formData, {
+      console.log("post",action.payload)
+      // Assuming 'action.payload' contains the data you want to senda
+      const response = await axios.post(API_URL,action.payload, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
-      dispatch(createCourseSuccess(response.data));
+      console.log('API Response:', response.data); // Log the response data
+      dispatch(createCoursesSuccess(response.data)); // Dispatch success action with the response data
     } catch (error) {
-      dispatch(createCourseFailure(error.message));
+      console.error('API Error:', error.message);
+      dispatch(createCoursesFailure(error.message));
     }
-  };
+  }
+  return next(action);
+  
 };
+
+export default addCourse;
+// Thunk Middleware
+// export const addCourse = (formData) => async (dispatch) => {
+//   dispatch(createCoursesRequest(formData));
+//   try {
+//     // Replace with your API call
+//     const response = await axios.post('http://localhost:5199/lxp/course', formData);
+//     dispatch(createCoursesSuccess());
+//     // You can also pass response data if needed
+//   } catch (error) {
+//     dispatch(createCoursesFailure(error));
+//   }
+// };
+// export const addCourse = (formData) => async (dispatch) => {
+//   dispatch(createCoursesRequest(formData));
+//   try {
+//     const response = await axios.post('http://localhost:5199/lxp/course', formData);
+//     // Dispatch the success action with the response data
+//     dispatch(createCoursesSuccess(response.data));
+//   } catch (error) {
+//     // Dispatch the failure action with the error
+//     dispatch(createCoursesFailure(error));
+//   }
+// };

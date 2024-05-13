@@ -1,20 +1,21 @@
-// Action Types
-export const CREATE_COURSE_REQUEST = 'CREATE_COURSE_REQUEST';
-export const CREATE_COURSE_SUCCESS = 'CREATE_COURSE_SUCCESS';
-export const CREATE_COURSE_FAILURE = 'CREATE_COURSE_FAILURE';
-
-// Action Creators
-export const createCourseRequest = () => ({
-  type: CREATE_COURSE_REQUEST,
+export const CREATE_COURSES_REQUEST = 'CREATE_COURSES_REQUEST';
+export const CREATE_COURSES_SUCCESS = 'CREATE_COURSES_SUCCESS';
+export const CREATE_COURSES_FAILURE = 'CREATE_COURSES_FAILURE';
+ 
+export const createCoursesRequest = (formData) => ({
+  type: CREATE_COURSES_REQUEST,
+  payload: formData
 
 });
-
-export const createCourseSuccess = (course) => ({
-  type: CREATE_COURSE_SUCCESS,
-  payload: course,
+ 
+export const createCoursesSuccess = (course) => ({
+  type: CREATE_COURSES_SUCCESS,
+  payload:course
+  
 });
-
-export const createCourseFailure = (error) => ({
-  type: CREATE_COURSE_FAILURE,
+ 
+export const createCoursesFailure = (error) => ({
+  type: CREATE_COURSES_FAILURE,
   payload: error,
 });
+ 

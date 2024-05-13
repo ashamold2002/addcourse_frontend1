@@ -1,41 +1,43 @@
-import {
-    CREATE_COURSE_REQUEST,
-    CREATE_COURSE_SUCCESS,
-    CREATE_COURSE_FAILURE,
-  } from '../../action/Course/AddCourseAction';
+import { 
+  CREATE_COURSES_REQUEST,
+  CREATE_COURSES_SUCCESS,
+  CREATE_COURSES_FAILURE,
+} from '../../action/Course/AddCourseAction';
+
+const initialState = {
   
-  const initialState = {
-    loading: false,
-    course: null,
-    error: null,
-  };
-  
-  const courseReducer = (state = initialState, action) => {
-    switch (action.type) {
-      case CREATE_COURSE_REQUEST:
-        return {
-          ...state,
-          loading: true,
-          error:null
-        };
-      case CREATE_COURSE_SUCCESS:
-        return {
-            ...state,
-          loading: false,
-          course: action.payload,
-          
-        };
-      case CREATE_COURSE_FAILURE:
-        return {
-            ...state,
-          loading: false,
-          
-          error: action.payload,
-        };
-      default:
-        return state;
-    }
-  };
-  
-  export default courseReducer;
-  
+  courses: [],
+  loading: false,
+  error: null,
+  isSubmitted:false,
+};
+
+const courseReducer = (state = initialState, action) => {
+  switch (action.type) {
+     case CREATE_COURSES_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case CREATE_COURSES_SUCCESS:
+      console.log('Course posted:', action.payload);
+      // Add the new course to the existing courses array
+      return {
+        ...state,
+        loading: false,
+        courses: [...state.courses, action.payload],
+        isSubmitted:true,
+        error: null,
+      };
+    case CREATE_COURSES_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export default courseReducer;
