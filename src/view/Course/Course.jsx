@@ -10,6 +10,7 @@ import { Sidenavbar } from '../../Component/SideNavbar';
 import { Header } from '../../Component/Header';
 import { useNavigate } from 'react-router-dom';
 import { validateForm } from '../../utils/AddCourseValidation';
+import { createCategoryrequest } from '../../action/Course/AddCategoryAction';
  
 
 
@@ -19,6 +20,10 @@ const Course = () => {
     const [coursecategory, setCategory] = useState([]);
     const [courselevel, setLevel] = useState([]);
     const [show, setShow] = useState(false);
+    const [category,setAddCategory]=useState({
+    category: '',
+    createdBy: 'Asha'
+    });
     
     
     const [errors, setErrors] = useState({});
@@ -94,6 +99,18 @@ const levelResponse = await axios.get('http://localhost:5199/lxp/course/coursele
         handleShow();
     }
     };
+    const handleInputCategory=(e)=>{
+        setAddCategory({...category,[e.target.name]:e.target.value})  
+    }
+    const handleCategory= async (e)=>{
+      e.preventDefault();
+      try{
+         console.log("category add",category);
+         dispatch(createCategoryrequest(category))
+      }catch(error){
+        window.alert("Error occured in adding category",error)
+      }
+    }
     
  
     const handleThumbnailChange = (event) => {
@@ -243,23 +260,27 @@ const levelResponse = await axios.get('http://localhost:5199/lxp/course/coursele
               <Modal.Header closeButton>
                 <Modal.Title>Add Category</Modal.Title>
               </Modal.Header>
+              <Form onSubmit={handleCategory}>
               <Modal.Body>
+                
                 <input
                   type="text"
                   placeholder="Enter new category"
-                  value={course.catagory}
-                  onChange={handleInputChange}
+                  value={category.category}
+                  onChange={handleInputCategory}
                   name="category"
                 />
+                
               </Modal.Body>
               <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
                   Close
                 </Button>
-                <Button variant="primary" onClick={handleClose}>
-                  Save Changes
+                <Button variant="primary" type='submit'>
+                  Add
                 </Button>
               </Modal.Footer>
+              </Form>
             </Modal>
     </>
     );
