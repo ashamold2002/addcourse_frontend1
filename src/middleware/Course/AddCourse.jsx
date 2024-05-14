@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import {CREATE_COURSES_REQUEST,createCoursesSuccess,createCoursesFailure} from '../../action/Course/AddCourseAction'
+import {CREATE_COURSES_REQUEST,createCoursesSuccess,createCoursesFailure, createcontent} from '../../action/Course/AddCourseAction'
 
 
 
@@ -19,7 +19,9 @@ const API_URL = 'http://localhost:5199/lxp/course';
         }
       });
       console.log('API Response:', response.data); // Log the response data
-      dispatch(createCoursesSuccess(response.data)); // Dispatch success action with the response data
+      dispatch(createCoursesSuccess(response.data.data)); // Dispatch success action with the response data
+      
+      
     } catch (error) {
       console.error('API Error:', error.message);
       dispatch(createCoursesFailure(error.message));
@@ -30,6 +32,7 @@ const API_URL = 'http://localhost:5199/lxp/course';
 };
 
 export default addCourse;
+
 // Thunk Middleware
 // export const addCourse = (formData) => async (dispatch) => {
 //   dispatch(createCoursesRequest(formData));

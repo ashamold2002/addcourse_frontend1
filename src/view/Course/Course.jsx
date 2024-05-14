@@ -9,6 +9,7 @@ import axios from 'axios';
 import { Sidenavbar } from '../../Component/SideNavbar';
 import { Header } from '../../Component/Header';
 import { useNavigate } from 'react-router-dom';
+import { validateForm } from '../../utils/AddCourseValidation';
  
 
 
@@ -17,11 +18,16 @@ const Course = () => {
     const dispatch = useDispatch();
     const [coursecategory, setCategory] = useState([]);
     const [courselevel, setLevel] = useState([]);
+    const [show, setShow] = useState(false);
+    
+    
+    const [errors, setErrors] = useState({});
     const [course, setCourse] = useState({
         title: '',
         level: '',
         catagory: '',
         description: '',
+        createdby:'Asha',
         duration: '',
         thumbnailimage: null,
     });
@@ -31,7 +37,7 @@ const Course = () => {
 
   useEffect(() => {
     if (isSubmitted) {
-      navigate('/addtopic'); // Navigate to the next page on success
+      navigate('/coursecontent'); // Navigate to the next page on success
     }
   }, [isSubmitted, navigate]);
   
@@ -50,21 +56,45 @@ const levelResponse = await axios.get('http://localhost:5199/lxp/course/coursele
     }, []);
     
  
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        try {
-            console.log("form",course);
-           dispatch(createCoursesRequest(course));
+    // const handleSubmit = async (event) => {
+    //     event.preventDefault();
+        
+    //     try {
+    //         console.log("form",course);
+    //        dispatch(createCoursesRequest(course));
             
 
-           } catch (error) {
-            console.error('Error creating course:', error);
+    //        } catch (error) {
+    //         console.error('Error creating course:', error);
+    //     }
+    // };
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+      const isFormValid = validateForm(course, setErrors);
+    
+      if (isFormValid) {
+        try {
+          console.log("form", course);
+          dispatch(createCoursesRequest(course));
+        } catch (error) {
+          console.error('Error creating course:', error);
         }
+      }
     };
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+    
  
     const handleInputChange = (e) => {
-       setCourse({ ...course, [e.target.name]: e.target.value });
+      const { name, value } = e.target;
+    setCourse({ ...course, [name]: value });
+      //  setCourse({ ...course, [e.target.name]: e.target.value });
+      if (name === "catagory" && value === "Add category") {
+        // Show modal for adding a new category
+        handleShow();
+    }
     };
+    
  
     const handleThumbnailChange = (event) => {
         if (event.target.files && event.target.files[0]) {
@@ -76,14 +106,15 @@ const levelResponse = await axios.get('http://localhost:5199/lxp/course/coursele
         setCourse((prevCourse) => ({ ...prevCourse, thumbnailimage: null }));
     };
  
-    const [show, setShow] = useState(false);
+    
  
     return (
       <>
       <Row>
-        <Col><Header /></Col>
-        <Col>
+        <Col md={12} ><Header /></Col>
+        <Col md={12}>
           <Sidenavbar />
+          <Container className='courseForm mt-5'>
           <h2>Course Creation</h2>
           <hr />
           <Card className="course-form">
@@ -102,6 +133,7 @@ const levelResponse = await axios.get('http://localhost:5199/lxp/course/coursele
                         onChange={handleInputChange}
                       />
                     </label>
+                    {errors.title && <p className="error">{errors.title}</p>}
                   </Row>
                   {/* Course Category */}
                   <Row>
@@ -115,14 +147,16 @@ const levelResponse = await axios.get('http://localhost:5199/lxp/course/coursele
                             {category.category}
                           </option>
                         ))}
+                        <option value="Add category">+ Add Category</option>
                          
                       </select>
                     </label>
+                    {errors.catagory && <p className="error">{errors.catagory}</p>}
                     </Col>
                    
-                    <Col>
+                    {/* <Col>
                     <Button onClick={() => setShow(true)}>+ Add Category</Button>
-                    </Col>
+                    </Col> */}
                   </Row>
                   {/* Course Level */}
                   <Row>
@@ -137,6 +171,7 @@ const levelResponse = await axios.get('http://localhost:5199/lxp/course/coursele
                         ))}
                       </select>
                     </label>
+                    {errors.level && <p className="error">{errors.level}</p>}
                   </Row>
                   {/* Course Duration */}
                   <Row>
@@ -151,6 +186,7 @@ const levelResponse = await axios.get('http://localhost:5199/lxp/course/coursele
                         onChange={handleInputChange}
                       />
                     </label>
+                    {errors.duration && <p className="error">{errors.duration}</p>}
                   </Row>
                   {/* Course Description */}
                   <Row>
@@ -163,6 +199,7 @@ const levelResponse = await axios.get('http://localhost:5199/lxp/course/coursele
                         onChange={handleInputChange}
                       ></textarea>
                     </label>
+                    {errors.description && <p className="error">{errors.description}</p>}
                   </Row>
                   {/* Course Thumbnail */}
                   <Row>
@@ -188,6 +225,7 @@ const levelResponse = await axios.get('http://localhost:5199/lxp/course/coursele
                         </div>
                       )}
                     </div>
+                    {errors.thumbnailimage && <p className="error">{errors.thumbnailimage}</p>}
                   </Row>
                   {/* Submit Button */}
                   <Row>
@@ -198,8 +236,31 @@ const levelResponse = await axios.get('http://localhost:5199/lxp/course/coursele
               
             </Card.Body>
           </Card>
+          </Container>
         </Col>
       </Row>
+      <Modal show={show} onHide={handleClose}  centered>
+              <Modal.Header closeButton>
+                <Modal.Title>Add Category</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <input
+                  type="text"
+                  placeholder="Enter new category"
+                  value={course.catagory}
+                  onChange={handleInputChange}
+                  name="category"
+                />
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                  Close
+                </Button>
+                <Button variant="primary" onClick={handleClose}>
+                  Save Changes
+                </Button>
+              </Modal.Footer>
+            </Modal>
     </>
     );
 };

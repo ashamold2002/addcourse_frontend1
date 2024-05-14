@@ -13,7 +13,7 @@ import "../style/Header.css"
 export const Header=()=>{
     return(
         <Navbar className="bg-body-tertiary" id='Admin-bar' >
-        <Container  className="justify-content-end">
+        {/* <Container  className="justify-content-end"> */}
         <Nav>
             <Nav.Link href="#home"  ><SearchIcon style={{ fill: "white" }}  sx={{ fontSize: 30 }} /></Nav.Link>
             <NavDropdown  title={<AddIcon style={{ fill: "white" }}  sx={{ fontSize: 30 }} />} id="basic-nav-dropdown" className="dropdown" > 
@@ -23,7 +23,7 @@ export const Header=()=>{
             <Nav.Link href="#home"><NotificationsNoneIcon style={{ fill: "white" }}  sx={{ fontSize: 30 }} /></Nav.Link>
             <Avatar src="/broken-image.jpg" />
             </Nav>
-        </Container>
+        {/* </Container> */}
       </Navbar>
     )
 }

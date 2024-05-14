@@ -2,6 +2,10 @@ import {
   CREATE_COURSES_REQUEST,
   CREATE_COURSES_SUCCESS,
   CREATE_COURSES_FAILURE,
+  CREATE_CONTENT,
+  FETCH_CATEGORY_REQUEST,
+  FETCH_CATEGORY_SUCCESS,
+  FETCH_CATEGORY_FAILURE,
 } from '../../action/Course/AddCourseAction';
 
 const initialState = {
@@ -21,6 +25,7 @@ const courseReducer = (state = initialState, action) => {
       };
     case CREATE_COURSES_SUCCESS:
       console.log('Course posted:', action.payload);
+      
       // Add the new course to the existing courses array
       return {
         ...state,
@@ -29,12 +34,14 @@ const courseReducer = (state = initialState, action) => {
         isSubmitted:true,
         error: null,
       };
+     
     case CREATE_COURSES_FAILURE:
       return {
         ...state,
         loading: false,
         error: action.payload,
       };
+    
     default:
       return state;
   }
