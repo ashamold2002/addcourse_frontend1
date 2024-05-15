@@ -48,6 +48,7 @@ const Content = () => {
 const navigate=useNavigate();
 const handleAddTopic=(e)=>{
   e.preventDefault(); // Prevent default form submission behavior
+  sessionStorage.setItem("course",course.courseId)
    dispatch(fetchCourseTopic(course));
 //     navigate('/addtopic')
     

@@ -16,46 +16,111 @@ import { useSelector, useDispatch } from 'react-redux';
 import courseReducer from '../../reducer/Course/AddCourseReducer';
 //import { setCourseDetail, addTopic, toggleModal } from '../reducer/courseReducer';
 import { validateCourseTopic } from '../../utils/AddTopicalidation';
+import { createTopicrequest } from '../../action/Course/TopicContentAction';
+import { updateTopicrequest } from '../../action/Course/TopicUpdateAction';
+import axios from 'axios';
 
 const AddTopic = () => {
-    const [showSideNav, setShowSideNav] = useState(false);
-    const [activePage, setActivePage] = useState('home');
-    const [searchTerm, setSearchTerm] = React.useState('');
-    const [courseTitle,setTitle]=useState('');
+    // const [showSideNav, setShowSideNav] = useState(false);
+    // const [activePage, setActivePage] = useState('home');
+    // const [searchTerm, setSearchTerm] = React.useState('');
+   const dispatch=useDispatch();
+   
+    
     const courseDetail=useSelector((state)=>state.addtopic.courses);
     console.log("courseTopic",courseDetail);
+    console.log('Course_id',courseDetail.courseId);
+    const [topics, setTopics] = useState({
+        courseId: courseDetail.courseId,
+        name: '',
+        description: '',
+        createdBy: 'Admin',
+        modifiedBy:'Admin'
+    });
     
-    const [showReportDropdown, setShowReportDropdown] = useState(false);
-    const handlePageChange = (page) => {
-        setActivePage(page);
-        if (!showSideNav) {
-            setShowSideNav(true);
+    
+//     const [course, setCourse] = useState({
+//         courseId: courseDetail.courseId,
+//   name: '',
+//   description: '',
+//   createdBy: 'Admin'
+
+//     });
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [modalIsOpens, setModalIsOpens] = useState(false);
+    const [modalIsOpenss, setModalIsOpenss] = useState(false);
+    const [modalIsOpensss, setModalIsOpensss] = useState(false);
+    const isAdd=useSelector((state)=>state.addtopicContent.isSuccess);
+    const TopicAdded1=useSelector((state)=>state.addtopicContent.topic);
+    const [TopicAdded,setTopicAdded]=useState([]);
+    useEffect(()=>{
+        setTopicAdded([... new Set(TopicAdded1)])
+    })
+
+    console.log("Topic added",TopicAdded);
+    console.log("Topic_id",TopicAdded.topicId);
+    //const [topicAdded,setTopicAdded]=useState([]);
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    // const FetchTopic = await axios.get(`http://localhost:5199/lxp/course/${sessionStorage.getItem("course")}/topic`);
+
+    //             setTopicAdded([FetchTopic.data.data[0].topics]);
+    //             console.log("fetchtopic",FetchTopic);
+
+    //         } catch (error) {
+    //             console.error('Error fetching data:', error);
+    //         }
+    //     };
+    //     fetchData();
+    // });
+    // console.log("topicAdded",topicAdded);
+    // useEffect(()=>
+    //     setTopicAdded(TopicAdded);
+        
+    //     console.log("topicAdded",topicAdded);
+    //     console.log("topicid",topicAdded.topicId);
+    // })
+    // const isUpdate=useSelector((state)=>state.updateTopic.isSuccess);
+    // const isDelete=useSelector((state)=>state.deleteTopic.isSuccess);
+    useEffect(()=>{
+        if(isAdd){
+            alert("Topic Added Successfully");
         }
-        if (page === 'reports') {
-            setShowReportDropdown(!showReportDropdown);
-        }
-        if (showReportDropdown) setShowReportDropdown(!showReportDropdown);
-    };
+    },[isAdd,alert])
+    // useEffect(()=>{
+    //     if(isUpdate){
+    //         Window.alert("Topic Updated Successfully");
+    //     }
+    // },[isUpdate])
+    // useEffect(()=>{
+    //     if(isDelete){
+    //         Window.alert("Topic Deleted Successfully");
+    //     }
+    // },[isDelete])
+    
+    // const [showReportDropdown, setShowReportDropdown] = useState(false);
+    // const handlePageChange = (page) => {
+    //     setActivePage(page);
+    //     if (!showSideNav) {
+    //         setShowSideNav(true);
+    //     }
+    //     if (page === 'reports') {
+    //         setShowReportDropdown(!showReportDropdown);
+    //     }
+    //     if (showReportDropdown) setShowReportDropdown(!showReportDropdown);
+    // };
     const handleChange = e => {
         const { name, value } = e.target;
-        setCourse({
-            ...course,
+        setTopics({
+            ...topics,
             [name]: value,
         });
-        setSearchTerm(e.target.value);
+        // setSearchTerm(e.target.value);
     };
-    const toggleSideNav = () => {
-        setShowSideNav(!showSideNav);
-    }; const [course, setCourse] = useState({
-        title: '',
-        category: '',
-        level: '',
-        duration: '',
-        description: '',
-        thumbnail: null,
-        courseTopic: '',
-        contentCovered: '',
-    });
+    // const toggleSideNav = () => {
+    //     setShowSideNav(!showSideNav);
+    // }; 
 
 
     const toggleDetails = (index) => {
@@ -72,10 +137,7 @@ const AddTopic = () => {
     const isPortrait = useMediaQuery({ orientation: 'portrait' });
     const isRetina = useMediaQuery({ minResolution: '2dppx' });
 
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [modalIsOpens, setModalIsOpens] = useState(false);
-    const [modalIsOpenss, setModalIsOpenss] = useState(false);
-    const [modalIsOpensss, setModalIsOpensss] = useState(false);
+    
     // Function to open the modal
     // const openModal = () => {
     //     setModalIsOpen(true);
@@ -83,25 +145,15 @@ const AddTopic = () => {
     const openModal = () => {
         setModalIsOpen(true);
     
-        // Reset the course state
-        setCourse({
-            title: '',
-            category: '',
-            level: '',
-            duration: '',
-            description: '',
-            thumbnail: null,
-            courseTopic: '',
-            contentCovered: '',
-        });  setError('');
+        
     };
     
     const openModals = () => {
         setModalIsOpens(true);
     };
-    // const openModalss = () => {
-    //     setModalIsOpenss(true);
-    // };
+    const openModalss = () => {
+        setModalIsOpenss(true);
+    };
     // const openModalsss = () => {
     //     setModalIsOpensss(true);
     // };
@@ -113,17 +165,13 @@ const AddTopic = () => {
     const closeModal = () => {
         setModalIsOpen(false);
     
-        // Reset the course state
-        setCourse({
-            title: '',
-            category: '',
-            level: '',
-            duration: '',
-            description: '',
-            thumbnail: null,
-            courseTopic: '',
-            contentCovered: '',
-        });
+        // // Reset the course state
+        // setCourse({
+        //     courseId: courseDetail.courseId,
+        //     name: '',
+        //     description: '',
+        //     createdBy: 'Admin'
+        // });
     };
     
     const closeModals = () => {
@@ -139,76 +187,83 @@ const AddTopic = () => {
 
 
 
-    const [topics, setTopics] = useState([]);
+   
     const [error, setError] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const error = validateCourseTopic(topics, course);
-        setError(error);
-        const topicExists = topics.some(topic => topic.courseTopic.toLowerCase() === course.courseTopic.toLowerCase());
+        // const error = validateCourseTopic(topics, course);
+        // setError(error);
+        // const topicExists = topics.some(topic => topic.name.toLowerCase() === course.name.toLowerCase());
 
-    if (topicExists) {
-        setError('Topic already exists. Please try with another topic.');
-    } else {
+    // if (topicExists) {
+    //     setError('Topic already exists. Please try with another topic.');
+    // } else {
         // Proceed with adding the topic if it doesn't exist
-        setTopics([...topics, {
-            courseTopic: course.courseTopic,
-            contentCovered: course.contentCovered,
-            isExpanded: true
-        }]);
+        // setTopics([...topics, {
+        //     courseId: courseDetail.courseId,
+        //     name: '',
+        //     description: '',
+        //     createdBy: 'Admin',
+        //     isExpanded: true
+        // }]);
+        try{
+          console.log("topic",topics);
+          dispatch(createTopicrequest(topics));
 
-        // Reset the course form
-        setCourse({
-            title: '',
-            category: '',
-            level: '',
-            duration: '',
-            description: '',
-            thumbnail: null,
-            courseTopic: '',
-            contentCovered: '',
-        });
+        //     // Reset the course form
+        // setTopics({
+        //     courseId: courseDetail.courseId,
+        //     name: '',
+        //     description: '',
+        //     createdBy: 'Admin'
+        // });
+
+        }catch(error){
+
+            Window.alert("Error occured in add topic");
+        }
+
+        
+       
 
         closeModal();
     }
 
-        if (!error) {
-            setTopics([...topics, {
-                courseTopic: course.courseTopic,
-                contentCovered: course.contentCovered,
-                isExpanded: true
-            }]);
+        // if (!error) {
+        //     setTopics([...topics, {
+        //         courseId: courseDetail.courseId,
+        //         name: '',
+        //         description: '',
+        //         createdBy: 'Admin',
+        //         isExpanded: true
+        //     }]);
 
-            setCourse({
-                title: '',
-                category: '',
-                level: '',
-                duration: '',
-                description: '',
-                thumbnail: null,
-                courseTopic: '',
-                contentCovered: '',
-            });
+        //     setCourse({
+        //     courseId: courseDetail.courseId,
+        //     name: '',
+        //     description: '',
+        //     createdBy: 'Admin'
+        //     });
 
-            closeModal();
-        }
-    };
-    const [deleteIndex, setDeleteIndex] = useState(null);
+        //     closeModal();
+        // }
+    // };
+    // const [deleteIndex, setDeleteIndex] = useState(null);
 
-    const handleDelete = (index) => {
-        const newTopics = [...topics];
-        newTopics.splice(index, 1);
-        setTopics(newTopics);
-        closeModalss();
-    };
+    // const handleDelete = (index) => {
+    //     const newTopics = [...topics];
+    //     newTopics.splice(index, 1);
+    //     setTopics(newTopics);
+    //     closeModalss();
+    // };
 
-    const openModalss = (index) => {
-        setModalIsOpenss(true);
-        setDeleteIndex(index);
-    };
-    // const [editIndex, setEditIndex] = useState(null);
+    // const openModalss = (index) => {
+    //     setModalIsOpenss(true);
+    //     setDeleteIndex(index);
+    // };
+   // const [editIndex, setEditIndex] = useState(null);
 
     // const handleUpdate = (event) => {
     //     event.preventDefault();
@@ -218,19 +273,15 @@ const AddTopic = () => {
     //     closeModalsss();
     // };
 
-    // const openModalsss = (index) => {
-    //     setModalIsOpensss(true);
-    //     setEditIndex(index);
-    //     setCourse(topics[index]); // Load the current topic data into the form
-    // };
+    
     const [editIndex, setEditIndex] = useState(null);
 
-    const handleChanges = (event) => {
-        setCourse({
-            ...course,
-            [event.target.name]: event.target.value
-        });
-    };
+    // const handleChanges = (event) => {
+    //     setTopicAdded({
+    //         ...topicAdded,
+    //         [event.target.name]: event.target.value
+    //     });
+    // };
 
     // const handleUpdate = (event) => {
     //     event.preventDefault();
@@ -239,37 +290,44 @@ const AddTopic = () => {
     //     setTopics(newTopics);
     //     closeModalsss();
     // };
-    const handleUpdate = (event) => {
-        event.preventDefault();
+   // const handleUpdate = (event) => {
+    //     event.preventDefault();
     
-        // Check if the course topic already exists
-        const topicExists = topics.some(topic => topic.courseTopic.toLowerCase() === course.courseTopic.toLowerCase());
+    //     // Check if the course topic already exists
+    //    // const topicExists = topics.some(topic => topic.name.toLowerCase() === course.name.toLowerCase());
     
-        if (topicExists) {
-            setError('Topic name already exists. Please try with another topic.');
-        } else {
-            // Proceed with updating the topic if it doesn't exist
-            const newTopics = [...topics];
-            newTopics[editIndex] = course;
-            setTopics(newTopics);
-            closeModalsss();
-        }
-    };
-    
+    //     // if (topicExists) {
+    //     //     setError('Topic name already exists. Please try with another topic.');
+    //     // } else {
+    //         // Proceed with updating the topic if it doesn't exist
+    //         try{
+    //         // const newTopics = [...topics];
+    //         // newTopics[editIndex] = course;
+    //         // setTopics(newTopics);
+    //         dispatch(updateTopicrequest(topicAdded));
+    //         }catch(error){
+    //            Window.alert("error updateing",error);
+    //         }
+    //         closeModalsss();
+    //     // }
+    // };
     const openModalsss = (index) => {
         setModalIsOpensss(true);
         setEditIndex(index);
-        setCourse(topics[index]); // Load the current topic data into the form
+        setTopics(topics[index]); // Load the current topic data into the form
     };
+    
+    // const openModalsss = (index) => {
+    //     setModalIsOpensss(true);
+    //     setEditIndex(index);
+    //     setTopicAdded(topicAdded[index]); // Load the current topic data into the form
+    // };
     
 
 
     return (
         
-            
-
-
-            <div className="course-creation-page" style={{ display: 'grid', width: '100%', height: '100vh', width: isDesktopOrLaptop ? '100%' : '100vw', width: isBigScreen ? '100%' : '100vw', width: isTabletOrMobile ? '100%' : '100vw', width: isPortrait ? '100%' : '100vw', width: isRetina ? '100%' : '100vw' }}>
+          <div className="course-creation-page" style={{ display: 'grid', width: '100%', height: '100vh', width: isDesktopOrLaptop ? '100%' : '100vw', width: isBigScreen ? '100%' : '100vw', width: isTabletOrMobile ? '100%' : '100vw', width: isPortrait ? '100%' : '100vw', width: isRetina ? '100%' : '100vw' }}>
 
                 <div className="container" style={{ marginTop: '50px', width: '1054px', height: '1005px' }}>
                     {/* Rest of your code */}     <div className="form-container" style={{ width: '1010px' }} >
@@ -290,45 +348,34 @@ const AddTopic = () => {
                                     </div>
                                     <hr></hr>
 
-                                    {topics.map((topic, index) => (
+                                    {TopicAdded.map((topic, index) => (
                                         <div className="course-section" key={index}>
                                             <div className="section-header">
                                                 <h4 className="toggle-button" onClick={() => toggleDetails(index)} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                    <span>{topic.courseTopic}</span>
-                                                    <span>{topic.isExpanded ? <FaChevronUp /> : <FaChevronDown />}</span>
+                                                    <span>{topic.name}</span><br/>
+                                                    <span> {topic.description}</span>
+                                                    
+                                                    {/* <span>{topics.isExpanded ? <FaChevronUp /> : <FaChevronDown />}</span> */}
                                                 </h4>
-                                            </div>
-                                            {topic.isExpanded && (
-                                                <div className="course-section">
-                                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'self-start', marginTop: '10px' }}>
-                                                        <p><b>Content Covered:</b>
-                                                            <ul>
-                                                                {topic.contentCovered.split(',').map((content, index) => (
-                                                                    <li key={index}>{content}</li>
-                                                                ))}
-                                                            </ul>
-                                                        </p>
-                                                        <div className="icons">
+                                                <div className="icons">
                                                             <CiYoutube className="icon" style={{ color: 'blue', fontSize: '20px' }} />
                                                             <CiMusicNote1 className="icon" style={{ color: 'blue' }} />
                                                             <BsFiletypePdf className="icon" style={{ color: 'red' }} />
                                                             <BsFiletypePpt className="icon" style={{ color: 'red' }} />
                                                             <FaFileAlt className="icon" style={{ color: 'red' }} />
-                                                            {/* <FaEdit className="icon" onClick={openModalsss} style={{ color: 'blue' }} /> */}
-                                                            <FaEdit className="icon" onClick={() => openModalsss(index)} style={{ color: 'blue' }} />
-                                                            {/* <FaTrash className="icon" onClick={openModalss} style={{ color: 'red' }} /> */}
-                                                            <FaTrash className="icon" onClick={() => openModalss(index)} style={{ color: 'red' }} />
+                                                            <FaEdit className="icon" onClick={() => openModalsss(topic.topicId)} style={{ color: 'blue' }} />
+                                                            {/* <FaTrash className="icon" onClick={() => openModalss(topic.topicId)} style={{ color: 'red' }} /> */}
 
                                                         </div>
-                                                    </div>
-                                                    <p>No Content is available. Add content to display</p>
+                                                        <p>No Content is available. Add content to display</p>
                                                     <a href='#' style={{ textDecoration: 'none', color: 'blue' }} onClick={openModals}>Add Content</a>
                                                 </div>
-                                            )}
-                                            <hr />
-                                        </div>
+                                            </div>
+                                            
+                                           
                                     ))}
-
+                                    <hr></hr>
+                                    
                                 </main></div></div></div>
                 
 {/* ----------------------------------add topic--------------------------------------------------- */}
@@ -360,23 +407,23 @@ const AddTopic = () => {
                         }
                     }}
                 >
-                    {error && <div style={{
+                    <div style={{
                     border: '1px solid #E01950',
                     backgroundColor: '#FFDBDB',
                     color: 'white',
                     padding: '10px',
                     borderRadius: '5px'
-                }}><p style={{ color: 'red' }}>{error}</p></div>}
+                }}></div>
                     <h2>Add Topic</h2>
                     <form onSubmit={handleSubmit}>
                         <label>
                             Course Topic:
-                            <input type="text" name="courseTopic" value={course.courseTopic} required onChange={handleChange} style={{ width: '410px' }} />
-                            {course.title === '' && <span className="warning"><h5 ><IoIosWarning style={{ fontSize: '20px', color: 'orange', marginRight: '7px' }} /> Make sure that topic does not already exist.</h5></span>}
+                            <input type="text" name="name" value={topics.name} required onChange={handleChange} style={{ width: '410px' }} />
+                            {/* {course.name === '' && <span className="warning"><h5 ><IoIosWarning style={{ fontSize: '20px', color: 'orange', marginRight: '7px' }} /> Make sure that topic does not already exist.</h5></span>} */}
                         </label><br></br>
                         <label>
                             Content Covered:
-                            <input type="text" name="contentCovered" value={course.contentCovered} required onChange={handleChange} style={{ width: '410px' }} />
+                            <input type="text" name="description" value={topics.description} required onChange={handleChange} style={{ width: '410px' }} />
                         </label>
                         <button className="btn btn-danger btn-size" onClick={closeModal} style={{
                             backgroundColor: 'red', width: '120px',
@@ -519,7 +566,7 @@ const AddTopic = () => {
                         <button className="btn btn-danger btn-size" onClick={closeModal}>Cancel</button>
                         <button className="btn btn-primary btn-size" type="submit" >Add</button>
                     </form> */}
-                    <button className="btn btn-danger btn-size" style={{
+                    {/* <button className="btn btn-danger btn-size" style={{
                         width: '120px',
                         height: '32px',
                         top: '530px',
@@ -527,7 +574,7 @@ const AddTopic = () => {
                         gap: '0px',
                         borderradius: '4px 0px 0px 0px',
                         opacity: '0px'
-                    }} onClick={() => handleDelete(deleteIndex)} >Delete</button>
+                    }} onClick={() => handleDelete(deleteIndex)} >Delete</button> */}
                     <button className="btn btn-primary btn-size" type="submit" onClick={closeModalss} style={{
                         width: '120px',
                         height: '32px',
@@ -572,22 +619,16 @@ const AddTopic = () => {
         <p>{error}</p>
     </div>}
                     <h2>Edit Topic</h2>
-                    <form onSubmit={handleUpdate}>
+                    {/* <form onSubmit={handleUpdate}>
 
                         <label>
-                            Course Topic:
-                            <input type="text" name="courseTopic" value={course.courseTopic} required onChange={handleChanges} style={{ width: '410px' }} />
+                             Topic:
+                            <input type="text" name="name" value={topicAdded.name} required onChange={handleChanges} style={{ width: '410px' }} /> 
+                            Content Covered :
+                            <input type="text" name="description" value={topicAdded.description} required style={{ width: '410px' }} /> 
                             
-                            {/* <input type="text" name="courseTopic" value={course.courseTopic} required style={{ width: '410px' }} /> */}
-                            {/* <input type="text" name="courseTopic" value={editingCourse.course.courseTopic} required onChange={(e) => setEditingCourse({ ...editingCourse, course: { ...editingCourse.course, courseTopic: e.target.value } })} style={{ width: '410px' }} /> */}
-                            {course.title === '' && <span className="warning"><h5 ><IoIosWarning style={{ fontSize: '20px', color: 'orange', marginRight: '7px' }} /> Make sure that topic does not already exist.</h5></span>}
                         </label><br></br>
-                        <label>
-                            Content Covered:
-                            <input type="text" name="contentCovered" value={course.contentCovered} required onChange={handleChanges} style={{ width: '410px' }} />
-                            {/* <input type="text" name="contentCovered" value={course.contentCovered} required style={{ width: '410px' }} /> */}
-                            {/* <input type="text" name="contentCovered" value={editingCourse.course.contentCovered} required onChange={(e) => setEditingCourse({ ...editingCourse, course: { ...editingCourse.course, contentCovered: e.target.value } })} style={{ width: '410px' }} /> */}
-                        </label>
+                        
                         <button className="btn btn-danger btn-size" style={{
                             backgroundColor: 'blue', width: '120px',
                             height: '32px',
@@ -606,7 +647,7 @@ const AddTopic = () => {
                             borderradius: '4px 0px 0px 0px',
                             opacity: '0px'
                         }} >Cancel</button>
-                    </form>
+                    </form> */}
                 </Modal>
             </div>
 
@@ -614,7 +655,7 @@ const AddTopic = () => {
 
 
         </div>
-    );
-};
+    )}
+                    
 export default AddTopic;
 
