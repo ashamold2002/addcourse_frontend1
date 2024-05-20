@@ -16,12 +16,12 @@ export const Header=()=>{
         {/* <Container  className="justify-content-end"> */}
         <Nav>
             <Nav.Link href="#home"  ><SearchIcon style={{ fill: "white" }}  sx={{ fontSize: 30 }} /></Nav.Link>
-            <NavDropdown  title={<AddIcon style={{ fill: "white" }}  sx={{ fontSize: 30 }} />} id="basic-nav-dropdown" className="dropdown" > 
+            {/* <NavDropdown  title={<AddIcon style={{ fill: "white" }}  sx={{ fontSize: 30 }} />} id="basic-nav-dropdown" className="dropdown" > 
               <NavDropdown.Item href="#action/3.1">Add Course</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">Add Quiz</NavDropdown.Item>
             </NavDropdown>
             <Nav.Link href="#home"><NotificationsNoneIcon style={{ fill: "white" }}  sx={{ fontSize: 30 }} /></Nav.Link>
-            <Avatar src="/broken-image.jpg" />
+            <Avatar src="/broken-image.jpg" /> */}
             </Nav>
         {/* </Container> */}
       </Navbar>

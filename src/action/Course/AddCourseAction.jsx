@@ -1,6 +1,7 @@
 export const CREATE_COURSES_REQUEST = 'CREATE_COURSES_REQUEST';
 export const CREATE_COURSES_SUCCESS = 'CREATE_COURSES_SUCCESS';
 export const CREATE_COURSES_FAILURE = 'CREATE_COURSES_FAILURE';
+export const CREATE_COURSES_EXISTS='CREATE_COURSES_EXISTS';
 export const CREATE_CONTENT='CREATE_CONTENT';
 export const FETCH_CATEGORY_REQUEST = 'FETCH_CATEGORY_REQUEST';
 export const FETCH_CATEGORY_SUCCESS = 'FETCH_CATEGORY_SUCCESS';
@@ -48,7 +49,7 @@ export const createCoursesRequest = (formData) => ({
  
 export const createCoursesSuccess = (course) => ({
   type: CREATE_COURSES_SUCCESS,
-  payload:course
+  payload:course,
   
 });
  
@@ -56,6 +57,10 @@ export const createCoursesFailure = (error) => ({
   type: CREATE_COURSES_FAILURE,
   payload: error,
 });
+
+export const createCoursesExists=()=>({
+  type:CREATE_COURSES_EXISTS,
+})
 
 export const createcontent=(course)=>({
   type:CREATE_CONTENT,

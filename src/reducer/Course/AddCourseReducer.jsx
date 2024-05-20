@@ -6,14 +6,17 @@ import {
   FETCH_CATEGORY_REQUEST,
   FETCH_CATEGORY_SUCCESS,
   FETCH_CATEGORY_FAILURE,
+  CREATE_COURSES_EXISTS,
 } from '../../action/Course/AddCourseAction';
 
 const initialState = {
   
-  courses: [],
+  course_id:null,
   loading: false,
   error: null,
   isSubmitted:false,
+  isError:false,
+  isExists:false,
 };
 
 const courseReducer = (state = initialState, action) => {
@@ -30,8 +33,10 @@ const courseReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        courses: [...state.courses, action.payload],
+        course_id: action.payload,
         isSubmitted:true,
+        isError:false,
+        isExists:false,
         error: null,
       };
      
@@ -40,7 +45,22 @@ const courseReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: action.payload,
+        isSubmitted:false,
+        isExists:false,
+        isError:true,
       };
+
+      case CREATE_COURSES_EXISTS:
+        return {
+          ...state,
+          loading: false,
+          isExists:true,
+          isSubmitted:false,
+          isError:false,
+         
+          
+
+        };
     
     default:
       return state;

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './routers/App';
+import './index.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import store from './store/Course/AddCourse';
 import { Provider } from 'react-redux';

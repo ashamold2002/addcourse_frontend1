@@ -38,7 +38,7 @@ export const validateForm = (course,setErrors) => {
     // Thumbnail validation for file type and size
     if (course.thumbnailimage) {
       if (!/\.(jpg|jpeg|png)$/i.test(course.thumbnailimage.name)) {
-        errors.thumbnailimage = 'Supported image formats are jpg, jpeg, png, gif';
+        errors.thumbnailimage = 'Supported image formats are jpg, jpeg, png';
         formIsValid = false;
       } else if (course.thumbnailimage.size > 250 * 1024) { // Check if size is greater than 250KB
         errors.thumbnailimage = 'Image must be less than 250KB';

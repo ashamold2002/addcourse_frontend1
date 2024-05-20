@@ -1,3 +1,41 @@
+.Course-header{
+  font-weight:400;
+  font-size: larger;
+  background-color: #23275c;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+}
+.dialog-clr{
+  background-color: #23275c;
+  color: aliceblue;
+ 
+}
+has context menu
+.custom-card {
+  width: 500px; /* Set your desired width */
+}
+
+/* .fixed-header {
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+  background-color: white; 
+} */
+
+.scrollable-body {
+  max-height: 400px; /* Set your desired max height */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+/* .img-card{
+  width: 100%;
+  height: 500rem;
+} */
+/* .thumbnail-image{
+  width: 5px;
+  height: 5px;
+} */
 .course-form {
   width: 70vh;
   height: 80dvh;
@@ -140,7 +178,9 @@ p {
 }
 
 .thumbnail-image {
+ 
   width: 50%;
+  margin-left: 25%;
   height: 100%;
   object-fit: cover;
 }

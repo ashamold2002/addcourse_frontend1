@@ -15,6 +15,8 @@ import DeleteTopicReducer from '../../reducer/Course/DeleteTopicReducer';
 import addTopic from '../../middleware/Course/AddTopicMiddleware';
 import updateTopic from '../../middleware/Course/UpdateTopicMiddleware';
 import deleteTopic from '../../middleware/Course/DeleteTopicMiddleware';
+import fetchCourseReducer from '../../reducer/Course/FetchCourseDetailReducer';
+import fetchcourseApi from '../../middleware/Course/FetchCourseDetailMiddleware';
 
 const rootReducer = combineReducers({
   course: courseReducer, // The key you've used for your course reducer
@@ -25,11 +27,12 @@ const rootReducer = combineReducers({
   addtopicContent:AddTopicContentReducer,
   updateTopic:UpdateTopicReducer,
   deleteTopic:DeleteTopicReducer,
+  fetchCourse:fetchCourseReducer,
 });
 
 const store = createStore(
   rootReducer,
-  applyMiddleware(thunk, addCourse,addCategory,addTopic,updateTopic,deleteTopic,fetchcategoryApi,fetchlevelApi) // Corrected middleware application
+  applyMiddleware(thunk, addCourse,addCategory,addTopic,updateTopic,deleteTopic,fetchcategoryApi,fetchlevelApi,fetchcourseApi) // Corrected middleware application
 );
 
 export default store;

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import {CREATE_COURSES_REQUEST,createCoursesSuccess,createCoursesFailure, createcontent} from '../../action/Course/AddCourseAction'
+import {CREATE_COURSES_REQUEST,createCoursesSuccess,createCoursesFailure, createcontent, createCoursesExists} from '../../action/Course/AddCourseAction'
 
 
 
@@ -19,7 +19,16 @@ const API_URL = 'http://localhost:5199/lxp/course';
         }
       });
       console.log('API Response:', response.data); // Log the response data
-      dispatch(createCoursesSuccess(response.data.data)); // Dispatch success action with the response data
+      
+      
+      if(response.data.statusCode==412){
+        dispatch(createCoursesExists());
+      }
+      else{
+        dispatch(createCoursesSuccess(response.data.data.courseId)); // Dispatch success action with the response data
+      }
+      
+      
       
       
     } catch (error) {
