@@ -25,7 +25,7 @@ const API_URL = 'http://localhost:5199/lxp/course';
         dispatch(createCoursesExists());
       }
       else{
-        dispatch(createCoursesSuccess(response.data.data.courseId)); // Dispatch success action with the response data
+        dispatch(createCoursesSuccess(response.data.data.courseId));// Dispatch success action with the response data
       }
       
       
