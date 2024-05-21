@@ -13,7 +13,7 @@ import fetchcourseApi from '../../middleware/Course/FetchCourseDetailMiddleware'
 import addTopicReducer from '../../reducer/Course/AddTopicReducer';
 import addTopic from '../../middleware/Course/AddTopicMiddleware';
 import storage from 'redux-persist/lib/storage';
-import { persistReducer,persistStore } from 'redux-persist';
+//import { persistReducer,persistStore } from 'redux-persist';
 import fetchTopicsReducer from '../../reducer/Course/FetchTopicReducer';
 import fetchTopicsApi from '../../middleware/Course/FetchTopicMiddleware';
 import fetchEditTopicsApi from '../../middleware/Course/FetchEditTopicMiddleware';
@@ -22,12 +22,18 @@ import updateTopicReducer from '../../reducer/Course/UpdateTopicsReducer'
 import updateTopicsApi from '../../middleware/Course/UpdateTopicsMiddleware';
 import deleteTopicReducer from '../../reducer/Course/DeleteTopicsReducer';
 import deleteTopic from '../../middleware/Course/DeleteTopicMiddleware';
+import addContent from '../../middleware/Course/AddContentMiddleware';
+import AddMaterialReducer from '../../reducer/Course/AddContentReducer';
+import fetchMaterialTypeReducer from '../../reducer/Course/FetchMaterialTypeReducer';
+import fetchMaterialTypeApi from '../../middleware/Course/FetchMaterialTypeMiddleware';
+import fetchContentApi from '../../middleware/Course/FetchContentMiddleware';
+import fetchContentReducer from '../../reducer/Course/FetchContentReducer';
 
-const persistConfig={
-  key:'root',
-  storage,
-  // blacklist:['fetchTopic']
-};
+// const persistConfig={
+//   key:'root',
+//   storage,
+//   // blacklist:['fetchTopic']
+// };
 
 const rootReducer = combineReducers({
   course: courseReducer, // The key you've used for your course reducer
@@ -40,13 +46,16 @@ const rootReducer = combineReducers({
   fetchEditTopic:fetchEditTopicsReducer,
   updateTopic:updateTopicReducer,
    deleteTopic:deleteTopicReducer,
+   addContent: AddMaterialReducer,
+  fetchMaterialType:fetchMaterialTypeReducer,
+  fetchContent:fetchContentReducer,
 
 });
-const persistedReducer= persistReducer(persistConfig,rootReducer);
+//const persistedReducer= persistReducer(persistConfig,rootReducer);
 
 const store = createStore(
-  persistedReducer,
-  applyMiddleware(thunk, addCourse,addCategory,fetchcategoryApi,fetchlevelApi,fetchcourseApi,addTopic,fetchTopicsApi,fetchEditTopicsApi,updateTopicsApi,deleteTopic) // Corrected middleware application
+  rootReducer,
+  applyMiddleware(thunk, addCourse,addCategory,fetchcategoryApi,fetchlevelApi,fetchcourseApi,addTopic,fetchTopicsApi,fetchEditTopicsApi,updateTopicsApi,deleteTopic,addContent,fetchMaterialTypeApi,fetchContentApi) // Corrected middleware application
 );
 
 export default store;

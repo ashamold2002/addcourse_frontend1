@@ -15,7 +15,7 @@ const addTopicReducer = (state = initialState, action) => {
   switch (action.type) {
       case CREATE_TOPICS_REQUEST:
           return {
-              // ...state,
+              ...state,
               loading: true,
           };
       case CREATE_TOPICS_SUCCESS:
@@ -24,7 +24,7 @@ const addTopicReducer = (state = initialState, action) => {
           
           // Add the new topic to the existing topics array
           return {
-              // ...state,
+              ...state,
               loading: false,
               topics: action.payload, // Corrected here
               isSubmitted: true,
@@ -32,7 +32,7 @@ const addTopicReducer = (state = initialState, action) => {
           };
       case CREATE_TOPICS_FAILURE:
           return {
-              // ...state,
+              ...state,
               loading: false,
               error: action.payload,
           };

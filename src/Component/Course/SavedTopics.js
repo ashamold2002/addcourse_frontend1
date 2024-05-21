@@ -26,7 +26,7 @@ import { fetchEditTopicsRequest } from '../../action/Course/FetchEditTopicReques
 import { updateTopicsRequest } from '../../action/Course/UpdateTopicsAction'
 import { deleteTopicsRequest } from '../../action/Course/DeleteTopicsAction';
 //import DialogContentText from '@mui/material/DialogContentText';
-import { useParams } from 'react-router-dom';
+import { useParams ,useNavigate, Link} from 'react-router-dom';
 //----------------------------------------------------------------------------------------------DELETE----------
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
@@ -38,16 +38,17 @@ export default function SavedTopics(props) {
     const [topicsDetail, setTopicsDetails] = useState([]);
     const [loading, setLoading] = useState(false);
     const [deleteId,setDeleteId] = useState("");
-
+    const navigate=useNavigate();
     const dispatch = useDispatch();
-    const { topicId } = useParams();
+    const { id } = useParams();
     sessionStorage.setItem("userName", "karni");
 
 
     //Delete
     // const[topicId,setSelectedTopicId]=useState(null);
 
-    const [courseId, setCourseId] = useState("273a1881-adb6-498c-9c35-5ba7d4b0c64b");
+    //const [courseId, setCourseId] = useState("273a1881-adb6-498c-9c35-5ba7d4b0c64b");
+    // const courseId={id};
     //Edit operation
     const [open, setOpen] = React.useState(false);
     // const [topics, setTopics] = useState({
@@ -81,7 +82,7 @@ export default function SavedTopics(props) {
     const fetchTopics = async () => {
         try {
             await
-             dispatch(fetchTopicsRequest(courseId));
+             dispatch(fetchTopicsRequest(id));
             setLoading(false);
         }
         catch (error) {
@@ -153,7 +154,7 @@ export default function SavedTopics(props) {
         // setTopicForEdit({...topicForEdit, modifiedBy: sessionStorage.getItem("userName")})
         dispatch(updateTopicsRequest(updateTopic))
         handleClose();
-        dispatch(fetchTopicsRequest(courseId));
+        dispatch(fetchTopicsRequest(id));
     }
     //----------------------------------------------------DELETE------------------------------------
     const theme = useTheme();
@@ -175,9 +176,14 @@ export default function SavedTopics(props) {
   const handleDeleteClose = () => {
     setOpenDelete(false);
     setDeleteId("");
-    dispatch(fetchTopicsRequest(courseId));
+    dispatch(fetchTopicsRequest(id));
 
   };
+  //----------------------------------------------------------------------------------------------
+//   const handleNavigate=(id)=>{
+//     // id.preventDefault();
+//       navigate(`/addcontent/${id}`)
+//   }
 
 
 
@@ -205,7 +211,8 @@ export default function SavedTopics(props) {
 
                         <AccordionDetails>
                            Description : {topic.topicDescription}
-                            <Button >Add Content</Button>
+                           <Link to={`/addcontent/${topic.topicId}`}>Add Content</Link>
+                            {/* <Button onClick={handleNavigate(topic.topicId)} >Add Content</Button> */}
                         </AccordionDetails>
 
                     </Accordion>

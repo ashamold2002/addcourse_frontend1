@@ -22,16 +22,16 @@ export default function AddTopic(props) {
   const dispatch = useDispatch();
   const {id}=useParams();
   //const [courseId,setCourseId]=useState(props.courseId??"273a1881-adb6-498c-9c35-5ba7d4b0c64b")
-  const courseId={id};
-  console.log("topic inside courseId",courseId);
+  // const Id=id;
+  //console.log("topic inside courseId",Id);
 
   const [open, setOpen] = React.useState(false);
   const [topics, setTopics] = useState({
 
-    courseId:props.courseId??"273a1881-adb6-498c-9c35-5ba7d4b0c64b",
+    courseId:id,
     name: "",
     description: "",
-    createdBy:sessionStorage.getItem("userName")
+    createdBy:"Mano"
    
   });
   //const[topics,setTopics]=useState([]);
@@ -45,21 +45,21 @@ export default function AddTopic(props) {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-  
+    console.log("createdispatch",topics);
     dispatch(createTopicsRequest(topics))
-    setTopics({
-      courseId:props.courseId??"273a1881-adb6-498c-9c35-5ba7d4b0c64b",
-      name: "",
-      description: "",
-      createdBy:sessionStorage.getItem("userName")
+    // setTopics({
+    //   courseId:Id,
+    //   name: "",
+    //   description: "",
+    //   createdBy:sessionStorage.getItem("userName")
      
-    });
+    // });
 
-    console.log("createdispatch",dispatch(createTopicsRequest(topics)));
+    
 
    // navigate('/savedtopics')
     handleClose();
-    dispatch(fetchTopicsRequest(courseId));
+    //dispatch(fetchTopicsRequest(Id));
   
 
   };

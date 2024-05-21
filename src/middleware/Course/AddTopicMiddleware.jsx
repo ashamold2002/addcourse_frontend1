@@ -7,11 +7,11 @@ import {CREATE_TOPICS_REQUEST,createTopicsSuccess,createTopicsFailure} from '../
 const API_URL = 'http://localhost:5199/lxp/course/topic';
 
  const addTopic = ({ dispatch }) => (next) =>async (action) => {
-  
+  console.log("topicMiddleware",action.payload);
 
   if (action.type === CREATE_TOPICS_REQUEST) {
     try {
-      //console.log("post",action.payload)
+      console.log("post",action.payload)
       // Assuming 'action.payload' contains the data you want to senda
       const response = await axios.post(API_URL,action.payload);
       console.log('API Response1:', response.data); // Log the response data

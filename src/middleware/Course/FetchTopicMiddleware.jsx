@@ -1,13 +1,13 @@
 import axios from "axios";
 import { FETCH_TOPICS_REQUEST,fetchTopicsSuccess,fetchTopicsFailure } from "../../action/Course/FetchTopicsAction";
-const API_URL = 'http://localhost:5199/lxp/course/';
+//const API_URL = 'http://localhost:5199/lxp/course/';
  
 const fetchTopicsApi = ({ dispatch }) => (next) => async (action) => {
   next(action);
  
   if (action.type === FETCH_TOPICS_REQUEST) {
     try {
-      const response = await axios.get(`${API_URL}${action.payload}/topic`)
+      const response = await axios.get(`http://localhost:5199/lxp/course/${action.payload}/topic`)
       
       console.log('API Response:', response.data); // Log the response data
       

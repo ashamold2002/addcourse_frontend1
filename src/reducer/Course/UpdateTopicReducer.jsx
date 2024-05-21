@@ -19,7 +19,7 @@ import { UPDATE_TOPIC_REQUEST ,UPDATE_TOPIC_SUCCESS,UPDATE_TOPIC_FAILURE} from "
        
         return{
           ...state,
-          courses:[...state.courses,action.payload],
+         // courses:[...state.courses,action.payload],
           loading:true,
           
         };
@@ -27,7 +27,7 @@ import { UPDATE_TOPIC_REQUEST ,UPDATE_TOPIC_SUCCESS,UPDATE_TOPIC_FAILURE} from "
         console.log("updatetopic success",action.payload)
         return{
           ...state,
-          courses:[...state.courses,action.payload],
+          courses:action.payload,
           loading:false,
           isSuccess:true,
         };
@@ -35,7 +35,7 @@ import { UPDATE_TOPIC_REQUEST ,UPDATE_TOPIC_SUCCESS,UPDATE_TOPIC_FAILURE} from "
        
         return{
           ...state,
-          courses:[...state.courses,action.payload],
+          courses:action.payload,
           loading:false,
           error:action.payload,
         };
