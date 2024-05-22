@@ -45,7 +45,7 @@ export const validateContentForm = (material,setErrors,materialType) => {
           }
      }
      if(materialType=="PPT"){
-        if (!/\.(ppt)$/i.test(material.material.name)) {
+        if (!/\.(ppt|pptx)$/i.test(material.material.name)) {
             errors.material = 'Supported ppt formats is ppt';
             formIsValid = false;
           } else if (material.material.size > 50 * 1024 *1024) { // Check if size is greater than 250KB
@@ -54,7 +54,7 @@ export const validateContentForm = (material,setErrors,materialType) => {
           }
      }
      if(materialType=="TEXT"){
-        if (!/\.(txt|doc|rte)$/i.test(material.material.name)) {
+        if (!/\.(txt|doc|rte|docx)$/i.test(material.material.name)) {
             errors.material = 'Supported text formats are rte,doc,doc,txt';
             formIsValid = false;
           } else if (material.material.size > 50 * 1024 *1024) { // Check if size is greater than 250KB

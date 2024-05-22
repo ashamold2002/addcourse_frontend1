@@ -2,6 +2,7 @@ import {
     CREATE_CONTENT_REQUEST,
     CREATE_CONTENT_SUCCESS,
     CREATE_CONTENT_FAILURE,
+    CREATE_CONTENT_EXISTS
     
     
   } from '../../action/Course/AddContentAction';
@@ -12,6 +13,7 @@ import {
     loading: false,
     error: null,
     isSubmitted:false,
+    isExisted:false,
   };
   
   const AddMaterialReducer = (state = initialState, action) => {
@@ -30,6 +32,7 @@ import {
           loading: false,
           content: action.payload,
           isSubmitted:true,
+          isExisted:false,
           error: null,
         };
        
@@ -38,7 +41,20 @@ import {
           ...state,
           loading: false,
           error: action.payload,
+          isExisted:true,
         };
+
+        case CREATE_CONTENT_EXISTS:
+          return {
+            ...state,
+            loading: false,
+            isExisted:true,
+            isSubmitted:false,
+            isError:false,
+           
+            
+  
+          };
       
       default:
         return state;

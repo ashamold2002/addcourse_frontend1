@@ -1,5 +1,6 @@
 import React from 'react'
-import { CloseButton, Form ,Button} from 'react-bootstrap'
+import { CloseButton, Form ,Button,Col,Row, Container} from 'react-bootstrap'
+import { Alert } from "@mui/material";
 import { Card } from 'react-bootstrap';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { useState } from 'react';
@@ -21,6 +22,7 @@ function AddContentComponent() {
   const { MaterialTypeId } = {  "MaterialTypeId": "02950b1f-6bf6-4463-896e-e5319da2fd6f" }
   const [materialType, setMaterialType] = useState(MaterialTypeId);
   const [errors, setErrors] = useState({});
+  const [open, setOpen] = React.useState(false);
  const {id}=useParams();
   const [material, setMaterial] = useState({
     topicId:id,
@@ -74,6 +76,38 @@ function AddContentComponent() {
     console.log(formData);
     dispatch(fetchContentRequest(formData));
   }
+  const isExist=useSelector((state)=>state.addContent.isExisted);
+  const [existMsg,setExistMsg]=useState('');
+  useEffect(()=>{
+    if(isExist){
+        setExistMsg('Material already exists');
+        const timer = setTimeout(() => {
+            setExistMsg('');
+          }, 5000);
+
+          return()=>clearTimeout(timer);
+    }
+  },[isExist])
+
+  const addCategorySuccessState=useSelector((state)=>state.addContent.isSubmitted);
+  
+  const [successMsg,setSuccessMsg]=useState('')
+  useEffect(()=>{
+    if(addCategorySuccessState){
+      
+       setSuccessMsg('Material added successfully');
+       
+       const timer = setTimeout(() => {
+        setSuccessMsg('');
+      }, 7000);
+
+      // Clear the timeout if the component unmounts
+      return () => clearTimeout(timer);
+      
+       
+       
+    }
+  },[addCategorySuccessState])
 
 
   const onDrop = useCallback((acceptedFiles) => {
@@ -137,6 +171,9 @@ console.log("eventdisplay",event.target.innerText);
     // console.log("createcontentrequest",dispatch(createContentRequest(material)));
     
   }
+  const divStyle = {
+    boxShadow: '0px 4px 8px #23275c', // Replace #yourShadowColor with your color
+  };
 
   return (
     <>
@@ -144,11 +181,31 @@ console.log("eventdisplay",event.target.innerText);
         
 
       </section> */}
+      <Container style={divStyle}>
+      <Row>
+        <Col></Col>
+        <Col>
+        {!open && successMsg && (
+        <Alert  severity="success" className="mt-3">
+          {successMsg}
+        </Alert>)}
+        {!open && existMsg && (
+        <Alert severity="warning" className="mt-3">
+          {existMsg}
+        </Alert>
+      )}
+      
+        </Col>
+        <Col></Col>
+      </Row>
+      <Row>
+        <Col md={3}></Col>
+        <Col md={6}>
 
       <section className='pt-5' >
         <Form onSubmit={handleSubmit}>
         <Form.Select aria-label="Default select example" value={materialType} onChange={(e) => handleMaterialType(e)}>
-
+        <option>Select Material Type</option>
 
 {selectorMaterialType.map((materialType) => (
 
@@ -157,7 +214,7 @@ console.log("eventdisplay",event.target.innerText);
 ))}
 </Form.Select>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label>Content Name</Form.Label>
+            {/* <Form.Label>Content Name</Form.Label> */}
             <Form.Control type="text" placeholder="Content Name" 
             name="name"
            
@@ -180,11 +237,11 @@ console.log("eventdisplay",event.target.innerText);
                 {selectedImage ? (
                   <Card>
                     <CloseButton className='position-absolute top-0 end-0' style={{color:'red'}} onClick={removethumbnail} aria-label="remove file"/>
-                    <img src={selectedImage} alt="Course thumbnail" className="img-thumbnail" />
+                    <img src={selectedImage} alt="Course Material" className="img-thumbnail" />
                   </Card>
                   
                 ) : (
-                  <p>{isDragActive ? "Drop the image here ..." : "Drag 'n' drop course image here, or click to select image"}</p>
+                  <p>{isDragActive ? " Drag & Drop the Material here ..." : "click to select Material"}</p>
                 )}
               </Card.Body>
               {/* <Card.Footer></Card.Footer> */}
@@ -196,14 +253,14 @@ console.log("eventdisplay",event.target.innerText);
           </Form.Group>
           {errors.material && <p className="error">{errors.material}</p>}
 
-          <Button type="submit">Add</Button>
+          <Button className="mt-3" style={{paddingLeft:'25px',paddingRight:'25px'}} type="submit">Add Material</Button>
         </Form>
 
       </section>
       <section className='pt-5'>
 
         <ListGroup  className='overflow-auto'>
-          {selectorContent == undefined ? <>Loading...</> : selectorContent.map((content) => (
+          {/* {selectorContent == undefined ? <>Loading...</> : selectorContent.map((content) => (
             <>
               <ListGroup.Item>
                 <div>
@@ -225,9 +282,13 @@ console.log("eventdisplay",event.target.innerText);
               </ListGroup.Item>
 
             </>
-          ))}
+          ))} */}
         </ListGroup>
       </section>
+      </Col>
+        <Col md={3}></Col>
+      </Row>
+      </Container>
 
 
     </>

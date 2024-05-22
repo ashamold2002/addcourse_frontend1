@@ -1,6 +1,7 @@
 export const CREATE_TOPICS_REQUEST='CREATE_TOPICS_REQUEST';
 export const CREATE_TOPICS_SUCCESS='CREATE_TOPICS_SUCCESS';
 export const CREATE_TOPICS_FAILURE='CREATE_TOPICS_FAILURE';
+export const CREATE_TOPICS_EXISTS='CREATE_TOPICS_EXISTS';
 
 
 
@@ -18,3 +19,7 @@ export const createTopicsFailure=(error)=>({
     type:CREATE_TOPICS_FAILURE,
     payload:error
 });
+export const createTopicsExists=()=>({
+    type:CREATE_TOPICS_EXISTS,
+  })
+  

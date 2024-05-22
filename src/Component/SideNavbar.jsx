@@ -10,6 +10,17 @@ import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
 import AssessmentRoundedIcon from '@mui/icons-material/AssessmentRounded';
 
 export const Sidenavbar=()=>{
+
+    const fixedSidebarStyle = {
+        position: 'fixed',
+       // top: 0,
+        //left: 0,
+       // bottom: 0,
+        //width: '250px', // Adjust the width as needed
+        //overflowY: 'auto',
+        backgroundColor: '#23275c',
+        color:'#23275c' // Adjust the color as needed
+    };
     return (
         <div>
             

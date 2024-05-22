@@ -26,6 +26,7 @@ import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { Dialog,TextField,DialogContent,DialogTitle,DialogActions,Button,Alert, Stack } from "@mui/material";
 import CheckIcon from '@mui/icons-material/Check';
+import { validateCategoryForm } from "../../utils/AddCategoryValidation";
 
 const AddCourse = () => {
   const navigate = useNavigate();
@@ -83,12 +84,12 @@ const AddCourse = () => {
        handleClose();
        setFailureMsg('Category already exists');
     //    fetchData();
-    //    const timer = setTimeout(() => {
-    //     setFailureMsg('');
-    //   }, 2000);
+       const timer = setTimeout(() => {
+        setFailureMsg('');
+      }, 5000);
 
-    //   // Clear the timeout if the component unmounts
-    //   return () => clearTimeout(timer);
+      // Clear the timeout if the component unmounts
+      return () => clearTimeout(timer);
       
        
        
@@ -101,11 +102,11 @@ const AddCourse = () => {
     if(InternalError){
         handleClose();
         setserverrError('Internal Server error occured');
-        // const timer = setTimeout(() => {
-        //     setserverrError('');
-        //   }, 2000);
+        const timer = setTimeout(() => {
+            setserverrError('');
+          }, 5000);
 
-        //   return()=>clearTimeout(timer);
+          return()=>clearTimeout(timer);
     }
   },[InternalError])
   
@@ -115,11 +116,11 @@ const AddCourse = () => {
   useEffect(()=>{
     if(isExist){
         setExistMsg('Course already exists');
-        // const timer = setTimeout(() => {
-        //     setExistMsg('');
-        //   }, 5000);
+        const timer = setTimeout(() => {
+            setExistMsg('');
+          }, 5000);
 
-        //   return()=>clearTimeout(timer);
+          return()=>clearTimeout(timer);
     }
   },[isExist])
    
@@ -129,11 +130,11 @@ const AddCourse = () => {
   useEffect(()=>{
     if(isFailure){
         setFailure('Internal Server error occured');
-        // const timer = setTimeout(() => {
-        //     setFailure('');
-        //   }, 5000);
+        const timer = setTimeout(() => {
+            setFailure('');
+          }, 5000);
 
-        //   return()=>clearTimeout(timer);
+          return()=>clearTimeout(timer);
     }
   },[isFailure])
    
@@ -198,6 +199,8 @@ const AddCourse = () => {
   };
   const handleCategory = async (e) => {
     e.preventDefault();
+    const CatagoryValid=validateCategoryForm(category,setErrors);
+    if(CatagoryValid){
     try {
       console.log("category add", category);
       dispatch(createCategoryrequest(category));
@@ -205,6 +208,7 @@ const AddCourse = () => {
     } catch (error) {
       window.alert("Error occured in adding category", error);
     }
+  }
   };
 
   const handleThumbnailChange = (event) => {
@@ -250,9 +254,12 @@ const AddCourse = () => {
     onDrop,
     accept: "image/*",
   });
+  const divStyle = {
+    boxShadow: '0px 4px 8px #23275c', // Replace #yourShadowColor with your color
+  };
   return (
     <>
-      <Container fluid>
+      <Container style={divStyle}>
         <Row>
             <Col></Col>
             <Col>
@@ -291,8 +298,8 @@ const AddCourse = () => {
         </Row>
      
         <Row>
-          <Col md={4} xs={3}></Col>
-          <Col md={4} xs={6}>
+          <Col md={3} xs={3}></Col>
+          <Col md={6} xs={6}>
             <Card className="mt-5 custom-card">
               <Card.Header style={{backgroundColor:'#23275C',color:'white'}} className="Course-header">
                 Create Course
@@ -440,7 +447,7 @@ const AddCourse = () => {
               </Card.Body>
             </Card>
           </Col>
-          <Col md={4} xs={3}></Col>
+          <Col md={3} xs={3}></Col>
         </Row>
       </Container>
       <React.Fragment>
@@ -465,7 +472,7 @@ const AddCourse = () => {
  
           <TextField
             autoFocus
-            required
+            
             margin="dense"
             id="name"
             name="category"
@@ -479,7 +486,7 @@ const AddCourse = () => {
             variant="standard"
             // style={{margin:'10px'}}
           />
-         
+         {errors.category && <p className="error">{errors.category}</p>}
  
          
         </DialogContent>

@@ -31,7 +31,9 @@ import { useParams ,useNavigate, Link} from 'react-router-dom';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import DialogContentText from '@mui/material/DialogContentText';
-
+import { validateTopicForm } from '../../utils/AddTopicValidation';
+import { Container } from '@mui/material';
+import { Card } from 'react-bootstrap';
 export default function SavedTopics(props) {
     // const topicsDetail=useSelector((state)=>state);
     const selectorTopicsDetail = useSelector((state) => state.fetchTopic.topics[0]);
@@ -40,6 +42,7 @@ export default function SavedTopics(props) {
     const [deleteId,setDeleteId] = useState("");
     const navigate=useNavigate();
     const dispatch = useDispatch();
+    const [errors, setErrors] = useState({});
     const { id } = useParams();
     sessionStorage.setItem("userName", "karni");
 
@@ -152,7 +155,19 @@ export default function SavedTopics(props) {
         event.preventDefault();
         console.log("lecec")
         // setTopicForEdit({...topicForEdit, modifiedBy: sessionStorage.getItem("userName")})
-        dispatch(updateTopicsRequest(updateTopic))
+        const isFormValid = validateTopicForm(updateTopic, setErrors);
+   
+        if (isFormValid) {
+          try {
+              dispatch(updateTopicsRequest(updateTopic))
+   
+      handleClose();
+   
+   
+          } catch (error) {
+            console.error('Error creating course:', error);
+          }
+        }
         handleClose();
         dispatch(fetchTopicsRequest(id));
     }
@@ -188,12 +203,22 @@ export default function SavedTopics(props) {
 
 
     //----------------------------------------------------------------------------------------------
+
+    const divStyle = {
+        boxShadow: '0px 4px 8px #23275c', // Replace #yourShadowColor with your color
+      };
     return (
-        <div>
+        <Container fluid className='mt-5' style={divStyle}>
+            
+            
+        {/* <div> */}
             {loading ? (
                 <p>Loading...</p>
             ) : (
+                
                 topicsDetail.map((topic, index) => (
+                   
+                   
                     <Accordion key={index}>
 
                         <AccordionSummary
@@ -211,15 +236,17 @@ export default function SavedTopics(props) {
 
                         <AccordionDetails>
                            Description : {topic.topicDescription}
-                           <Link to={`/addcontent/${topic.topicId}`}>Add Content</Link>
+                           <Link style={{marginLeft:'250px'}} to={`/addcontent/${topic.topicId}`}>Add Content</Link>
                             {/* <Button onClick={handleNavigate(topic.topicId)} >Add Content</Button> */}
                         </AccordionDetails>
 
                     </Accordion>
-
+                   
+                   
 
 
                 ))
+                
             )}
             {/* //-------------------------------------------UPDATE-------------------------------------- */}
             <Dialog
@@ -250,6 +277,7 @@ export default function SavedTopics(props) {
                     // onChange={(e) => setTopics({ ...topics, name: e.target.value })}
                     // style={{margin:'10px'}}
                     />
+                    {errors.name && <p className="error">{errors.name}</p>}
                     <TextField
                         id="outlined-multiline-static"
                         label="Description"
@@ -265,6 +293,7 @@ export default function SavedTopics(props) {
                         style={{ marginTop: '45px' }}
 
                     />
+                    {errors.description && <p className="error">{errors.description}</p>}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
@@ -304,7 +333,8 @@ export default function SavedTopics(props) {
             {/* //---------------------------------------------------ADD CONTENT------------------------------------------ */}
 
 
-        </div>
+        {/* </div> */}
+        </Container>
     );
 }
 

@@ -1,6 +1,7 @@
 export const CREATE_CONTENT_REQUEST ='CREATE_CONTENT_REQUEST';
 export const CREATE_CONTENT_SUCCESS = 'CREATE_CONTENT_SUCCESS';
 export const CREATE_CONTENT_FAILURE = 'CREATE_CONTENT_FAILURE';
+export const CREATE_CONTENT_EXISTS='CREATE_COURSES_EXISTS';
 
 export const createContentRequest=(formData)=>({
     type: CREATE_CONTENT_REQUEST,
@@ -16,4 +17,8 @@ export const createContentFailure = (error)=>({
     type: CREATE_CONTENT_FAILURE,
     payload : error
 })
+
+export const createContentExists=()=>({
+    type:CREATE_CONTENT_EXISTS,
+  })
 

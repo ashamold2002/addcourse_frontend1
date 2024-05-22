@@ -90,11 +90,13 @@ const handleAddTopic=(e)=>{
   // const handleToggle = () => {
   //   setIsActive(!isActive); // Toggle the state
   // };
-
+  const divStyle = {
+    boxShadow: '0px 4px 8px #23275c', // Replace #yourShadowColor with your color
+  };
   return (
     <>
-    <Container fluid>
-      <Row className="mt-5">
+    <Container style={divStyle}>
+      <Row className="mt-1">
         <Col md={3} xs={3}></Col>
         <Col md={6} xs={6}>
         <Card sx={{ maxWidth: 800 }}>

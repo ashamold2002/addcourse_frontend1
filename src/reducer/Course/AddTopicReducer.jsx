@@ -2,6 +2,7 @@ import {
   CREATE_TOPICS_REQUEST,
   CREATE_TOPICS_SUCCESS,
   CREATE_TOPICS_FAILURE,
+  CREATE_TOPICS_EXISTS,
 } from '../../action/Course/AddTopicAction';
 
 const initialState = {
@@ -9,6 +10,8 @@ const initialState = {
   loading: false,
   error: null,
   isSubmitted: false,
+  isExisted:false,
+  isError:false,
 };
 
 const addTopicReducer = (state = initialState, action) => {
@@ -35,7 +38,20 @@ const addTopicReducer = (state = initialState, action) => {
               ...state,
               loading: false,
               error: action.payload,
+              isError:true,
           };
+
+        case CREATE_TOPICS_EXISTS:
+            return {
+              ...state,
+              loading: false,
+              isExisted:true,
+              isSubmitted:false,
+              isError:false,
+             
+              
+    
+            };
       default:
           return state;
   }
