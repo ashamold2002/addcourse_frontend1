@@ -16,9 +16,9 @@ const fetchContentApi = ({ dispatch }) => (next) => async (action) => {
       }).catch((error)=>{
         console.log(error);
       });
-      // console.log('API Response for fetch:', response.data); // Log the response data
+      console.log('API Response for fetch:', response.data); // Log the response data
       
-        // dispatch(fetchContentSuccess(response.data.data));
+        dispatch(fetchContentSuccess(response.data.data));
       
     } catch (error) {
       console.error('API Error:', error.message);

@@ -28,6 +28,7 @@ import fetchMaterialTypeReducer from '../../reducer/Course/FetchMaterialTypeRedu
 import fetchMaterialTypeApi from '../../middleware/Course/FetchMaterialTypeMiddleware';
 import fetchContentApi from '../../middleware/Course/FetchContentMiddleware';
 import fetchContentReducer from '../../reducer/Course/FetchContentReducer';
+import videoReducer from '../../reducer/Course/VideoDurationReducer';
 
 // const persistConfig={
 //   key:'root',
@@ -49,6 +50,7 @@ const rootReducer = combineReducers({
    addContent: AddMaterialReducer,
   fetchMaterialType:fetchMaterialTypeReducer,
   fetchContent:fetchContentReducer,
+  videoDuration:videoReducer,
 
 });
 //const persistedReducer= persistReducer(persistConfig,rootReducer);

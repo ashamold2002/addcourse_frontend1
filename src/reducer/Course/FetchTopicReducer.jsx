@@ -14,7 +14,7 @@ import {
   };
   
   const fetchTopicsReducer = (state = initialState, action) => {
-    
+    debugger;
     switch (action.type) {
        
       case FETCH_TOPICS_REQUEST:

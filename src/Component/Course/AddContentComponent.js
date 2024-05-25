@@ -16,6 +16,8 @@ import { fetchMaterialTypeRequest } from '../../action/Course/FetchMaterialTypeA
 import { fetchContentRequest } from '../../action/Course/FetchContentAction';
 import { createContentRequest } from '../../action/Course/AddContentAction';
 import {validateContentForm} from "../../utils/AddContentValidation";
+import { setVideoDuration } from '../../action/Course/VideoDuration';
+import { useRef } from 'react';
 function AddContentComponent() {
   // const { topicId,materialTypeId } = props
   sessionStorage.setItem("userName","Mano");
@@ -34,11 +36,14 @@ function AddContentComponent() {
 
    
   });
+ 
   const materialTypeMap = {};
 
   const [selectedImage, setSelectedImage] = useState(null);
   // const {courseId}
   const dispatch = useDispatch();
+  const VideoDuration=useSelector((state)=>state.VideoDuration)
+  const videoRef=useRef();
   const selectorMaterialType = useSelector((state) => state.fetchMaterialType.materialtype);
   const selectorContent = useSelector((state) => state.fetchContent.content)
   console.log("material", selectorMaterialType);
@@ -157,6 +162,9 @@ console.log("eventdisplay",event.target.innerText);
     console.log(materialTypeMap);
     const selectedLabel = materialTypeMap[materialType];
     console.log(selectedLabel);
+    if(selectedLabel==='VIDEO'){
+      
+    }
     const isFormValid = validateContentForm(material, setErrors,selectedLabel);
     
       if (isFormValid) {

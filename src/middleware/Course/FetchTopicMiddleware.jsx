@@ -11,8 +11,8 @@ const fetchTopicsApi = ({ dispatch }) => (next) => async (action) => {
       
       console.log('API Response:', response.data); // Log the response data
       
-        dispatch(fetchTopicsSuccess(response.data.data));
-        console.log("mytopicmiddleware",response.data.data)
+        // dispatch(fetchTopicsSuccess(response.data.data));
+        // console.log("mytopicmiddleware",response.data.data)
       
     } catch (error) {
       console.error('API Error:', error.message);

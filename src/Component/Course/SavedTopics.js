@@ -84,8 +84,7 @@ export default function SavedTopics(props) {
 
     const fetchTopics = async () => {
         try {
-            await
-             dispatch(fetchTopicsRequest(id));
+            dispatch(fetchTopicsRequest(id));
             setLoading(false);
         }
         catch (error) {
@@ -192,7 +191,6 @@ export default function SavedTopics(props) {
     setOpenDelete(false);
     setDeleteId("");
     dispatch(fetchTopicsRequest(id));
-
   };
   //----------------------------------------------------------------------------------------------
 //   const handleNavigate=(id)=>{
